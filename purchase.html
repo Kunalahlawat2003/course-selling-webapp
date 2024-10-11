@@ -53,7 +53,7 @@
     async function fetchCourses() {
         const userId = localStorage.getItem("userId");
     try {
-        const response = await axios.get(`http://localhost:3000/user/purchases/${userId}`, {
+        const response = await axios.get(`https://course-selling-webapp.onrender.com/user/purchases/${userId}`, {
             headers: {
                 token: localStorage.getItem("token")
             }
