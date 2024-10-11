@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 3000;
     await mongoose.connect(process.env.MONGO_URL)
 }
 
-const url = `https://yourappname.onrender.com/`; // Replace with your Render URL
+const url = `https://course-selling-webapp-two.vercel.app/`; // Replace with your Render URL
 const interval = 30000; // Interval in milliseconds (30 seconds)
 
 function reloadWebsite() {
