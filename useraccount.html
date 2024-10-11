@@ -67,7 +67,7 @@
         async function deleteaccnt() {
             const userId = localStorage.getItem("userId");
           try {
-              const response = await axios.delete(`https://course-selling-webapp-two.vercel.app/user/account/${userId}`, {
+              const response = await axios.delete(`https://course-selling-webapp.onrender.com/user/account/${userId}`, {
                   headers: {
                     token: localStorage.getItem("token")
                   }
