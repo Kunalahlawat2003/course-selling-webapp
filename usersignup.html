@@ -47,7 +47,7 @@
                 const firstname = document.getElementById("firstname").value;
                 const lastname = document.getElementById("lastname").value;
             try {    
-                const response = await axios.post("http://localhost:3000/user/signup",{
+                const response = await axios.post("https://course-selling-webapp-lyart.vercel.app/signup",{
                     email: email,
                     password: password,
                     firstname: firstname,
