@@ -67,7 +67,7 @@
         async function deleteaccnt() {
             const adminId = localStorage.getItem("adminId");
           try {
-              const response = await axios.delete(`https://course-selling-webapp-lyart.vercel.app/admin/account/${adminId}`, {
+              const response = await axios.delete(`https://course-selling-webapp-two.vercel.app/admin/account/${adminId}`, {
                   headers: {
                     token: localStorage.getItem("token")
                   }
