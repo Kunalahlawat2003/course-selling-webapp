@@ -52,7 +52,7 @@
 
     async function fetchCourses() {
     try {
-        const response = await axios.get("http://localhost:3000/user/purchases", {
+        const response = await axios.get("https://course-selling-webapp-lyart.vercel.app/user/purchases", {
             headers: {
                 token: localStorage.getItem("token")
             }
