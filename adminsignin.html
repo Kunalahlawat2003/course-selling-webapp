@@ -44,7 +44,7 @@
             const email = document.getElementById("email").value;
             const password = document.getElementById("pass").value;
             try {
-            const response = await axios.post("http://localhost:3000/admin/signin", {
+            const response = await axios.post("https://course-selling-webapp-lyart.vercel.app/admin/signin", {
                 email: email,
                 password: password
             });
