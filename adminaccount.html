@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100x Devs (Jr)</title>
+    <link rel="stylesheet" href="css/adminaccount.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <div class="topbar" id="topbar">
+        <div class="topbar_text">100x Devs <span>(Jr)</span></div>
+        <nav class="navbar">
+        <ul>
+            <li><a href="adminindex.html#about">HOME</a></li>
+            <li><a href="admincourse.html#course_container">COURSES</a></li>
+            <li><a href="adminindex.html#testimonials">TESTIMONIALS</a></li>
+            <li><a href="#">ACCOUNT</a></li>
+            <li><a href="adminpurchase.html">PURCHASES</a></li>
+            <li><a href="generatecode.html">GENERATE CODE</a></li>
+        </ul>
+        </nav>
+        <button class="logoutbtn" onclick="logout()">LOG OUT</button>
+    </div>
+    
+    <div class="profile_bg">
+        <div class="profile_icon">
+            <span class="material-symbols-outlined">account_circle</span>
+        </div>
+        <div class="role">ADMIN</div>
+        <span class="firstname">Kunal</span> <span class="lastname">Ahlawat</span>
+        <div class="email">ahlawatkunal21@gmail.com</div>
+        <button class="viewpurchases" onclick="window.location.href='purchase.html'">View Purchases</button>
+        <button class="delete" onclick="deletebtn()">Delete Account</button>
+    </div>
+
+    <div class="delete_container">
+        <div class="delete_title">Are you sure you want to delete your account?</div>
+        <div class="delete_buttons">
+        <button class="delete_no" onclick ="goback()">No</button>
+        <button class="delete_yes" onclick="deleteaccnt()">yes</button>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+          localStorage.removeItem('token');
+          localStorage.removeItem('adminId');
+          localStorage.removeItem('firstname');
+          localStorage.removeItem('lastname');
+          localStorage.removeItem('email');
+          window.location.href = ("index.html");
+        }
+
+        window.onload = function() {
+          document.querySelector('.firstname').innerHTML = localStorage.getItem("firstname");
+          document.querySelector('.lastname').innerHTML = localStorage.getItem("lastname");
+          document.querySelector('.email').innerHTML = localStorage.getItem("email");
+        };
+
+        async function deleteaccnt() {
+            const adminId = localStorage.getItem("adminId");
+          try {
+              const response = await axios.delete(`http://localhost:3000/admin/account/${adminId}`, {
+                  headers: {
+                    token: localStorage.getItem("token")
+                  }
+                });
+      
+              if (response.data.message === "Account Deleted") {
+                localStorage.removeItem('token');
+                localStorage.removeItem('adminId');
+                localStorage.removeItem('firstname');
+                localStorage.removeItem('lastname');
+                localStorage.removeItem('email');
+                window.location.href = ("index.html");
+              }
+          } catch (error) {
+              console.error("Error deleting account", error);
+              alert("Error deleting account.");
+          }
+        }
+
+        function deletebtn() {
+            document.querySelector('.delete_container').style.display = 'block';
+        }
+
+        function goback() {
+            document.querySelector('.delete_container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>    

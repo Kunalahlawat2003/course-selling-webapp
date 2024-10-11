@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100x Devs (Jr)</title>
+    <link rel="stylesheet" href="css/usercourse.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <div class="topbar" id="topbar">
+        <div class="topbar_text">100x Devs <span>(Jr)</span></div>
+        <nav class="navbar">
+        <ul>
+            <li><a href="userindex.html#about">HOME</a></li>
+            <li><a href="#">COURSES</a></li>
+            <li><a href="userindex.html#testimonials">TESTIMONIALS</a></li>
+            <li><a href="useraccount.html">ACCOUNT</a></li>
+            <li><a href="purchase.html">PURCHASES</a></li>
+            <li><a href="userindex.html#footer">CONTACT US</a></li>
+        </ul>
+        </nav>
+        <button class="logoutbtn" onclick="logout()">LOG OUT</button>
+    </div>
+    <div class="title">All Knowledge at <span>One Place</span></div>
+    <div class="card_container" id="card_container"></div>
+
+    <div id="course-detail" class="course-detail hidden">
+      <span class="material-symbols-outlined" id="closebtn" onclick="closeform()">close</span>
+      <img id="course-image" class="course-image" src="" alt="Course Image">
+      <div class="course-info">
+          <h2 id="course-title"></h2>
+          <p id="course-description"></p>
+          <p id="course-price"></p>
+          <button class="purchase-btn">Purchase Course</button>
+      </div>
+      <div class="purchase_mssg"></div>
+  </div>
+
+  <div class="empty"></div>
+
+  <script>
+
+      window.onload = function() {
+          fetchCourses()
+      };
+      function viewCourse(courseId, title, imgUrl, description, price, type) {
+          // Hide card container
+          document.getElementById('card_container').style.display = 'none';
+          // Show course detail container
+          const courseDetail = document.getElementById('course-detail');
+          courseDetail.classList.remove('hidden');
+          courseDetail.classList.add('flex');
+          document.querySelector('.purchase_mssg').innerHTML = "";
+
+          // Update course content
+          document.getElementById('course-title').innerText = title;
+          document.getElementById('course-image').src = imgUrl;
+          document.getElementById('course-description').innerText = description;
+          document.getElementById('course-price').innerText = price;
+
+          document.querySelector('.purchase-btn').setAttribute('onclick', `purchaseCourse('${courseId}', '${title}', '${description}', '${price}', '${type}', '${imgUrl}')`);}
+
+      function closeform(){
+        document.getElementById('card_container').style.display = 'grid';
+        document.querySelector('.empty').style.display = 'block';
+        const courseDetail = document.getElementById('course-detail');
+        courseDetail.classList.add('hidden');
+      }
+
+      function logout() {
+          localStorage.removeItem('token');
+          localStorage.removeItem('userId');
+          localStorage.removeItem('email');
+          localStorage.removeItem('firstname');
+          localStorage.removeItem('lastname');
+          window.location.href = ("index.html");
+      }
+
+      async function fetchCourses() {
+    try {
+        const response = await axios.get("http://localhost:3000/user/courses", {
+            headers: {
+                token: localStorage.getItem("token")
+            }
+        });
+
+        const courses = response.data.courses; // Assuming the API returns all courses here
+        const container = document.getElementById("card_container");
+        container.innerHTML = ""; // Clear existing courses before adding new ones
+
+        courses.forEach(course => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.setAttribute("course-id", course._id);
+
+            const card_image = document.createElement("img");
+            card_image.className = "card-image";
+            card_image.setAttribute("src", course.imageUrl);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+
+            const cardtitle = document.createElement("h3");
+            cardtitle.innerHTML = course.title;
+
+            const cardprice = document.createElement("p");
+            cardprice.innerHTML = course.price + '&nbsp;&nbsp;';
+
+            const strikeprice = document.createElement("s");
+            strikeprice.className = "strike";
+            strikeprice.innerHTML = course.strikedprice;
+
+            const viewbtn = document.createElement("button");
+            viewbtn.className = "card_view";
+            viewbtn.setAttribute("onclick", `viewCourse('${course._id}', '${course.title}', '${course.imageUrl}', '${course.description}', '${course.price}', '${course.type}')`);
+            viewbtn.innerHTML = "View Course";
+
+            content.appendChild(cardtitle);
+            content.appendChild(cardprice);
+            content.appendChild(strikeprice);
+            content.appendChild(viewbtn);
+            cardprice.appendChild(strikeprice);
+
+            card.appendChild(card_image);
+            card.appendChild(content);
+
+            container.appendChild(card);
+        });
+          } catch (e) {
+              console.log("Error fetching courses", e);
+          }
+      }
+
+      async function purchaseCourse(courseId, title, description, price, type, imageUrl) {
+
+          const userId = localStorage.getItem("userId");
+          const token = localStorage.getItem("token"); 
+      
+          if (!userId || !token) {
+              alert("You need to be logged in to purchase a course.");
+              return;
+          }
+      
+          try {
+              const response = await axios.post("http://localhost:3000/user/purchase", {
+                  userId: userId,
+                  courseId: courseId,
+                  title: title,
+                  description: description,
+                  price: price,
+                  type: type,
+                  imageUrl: imageUrl
+              }, {
+                  headers: {
+                    token: localStorage.getItem("token")
+                  }
+              });
+      
+              if (response.data.message === "Purchase successful") {
+                alert("Course purchased successfully!");
+                document.querySelector('.purchase_mssg').innerHTML = "Purchase successful";
+              } else if (response.data.message == "You have already purchased this course.") {
+                alert("You have already purchased this course."); 
+                document.querySelector('.purchase_mssg').innerHTML = "You have already purchased this course.";
+              }else {
+                alert("There was an error purchasing the course.");
+                document.querySelector('.purchase_mssg').innerHTML = "There was an error purchasing the course.";
+              } 
+          } catch (error) {
+              console.error("Error during course purchase:", error);
+              alert("An error occurred. Please try again.");
+              document.querySelector('.purchase_mssg').innerHTML = "An error occurred. Please try again.";
+          }
+      }
+  </script>
+</body>
+</html>

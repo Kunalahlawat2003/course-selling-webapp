@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100x Devs (Jr)</title>
+    <link rel="stylesheet" href="css/adminpurchase.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <div class="topbar" id="topbar">
+        <div class="topbar_text">100x Devs <span>(Jr)</span></div>
+        <nav class="navbar">
+        <ul>
+            <li><a href="adminindex.html#about">HOME</a></li>
+            <li><a href="admincourse.html#course_container">COURSES</a></li>
+            <li><a href="adminindex.html#testimonials">TESTIMONIALS</a></li>
+            <li><a href="adminaccount.html">ACCOUNT</a></li>
+            <li><a href="#">PURCHASES</a></li>
+            <li><a href="generatecode.html">GENERATE CODE</a></li>
+        </ul>
+        </nav>
+        <button class="logoutbtn" onclick="logout()">LOG OUT</button>
+    </div>
+
+    <div class="title">All Your Purchased <span>Courses</span></div>
+    <div class="card_container" id="card_container"></div>
+
+  <div class="empty"></div>
+
+  <script>
+    function logout() {
+          localStorage.removeItem('token');
+          localStorage.removeItem('adminId');
+          localStorage.removeItem('firstname');
+          localStorage.removeItem('lastname');
+          localStorage.removeItem('email');
+          window.location.href = ("index.html");
+        }
+
+        async function fetchCourses() {
+    try {
+        const response = await axios.get("http://localhost:3000/admin/courses", {
+            headers: {
+                token: localStorage.getItem("token")
+            }
+        });
+
+        const courses = response.data.courses; 
+        const container = document.getElementById("card_container");
+        container.innerHTML = ""; 
+
+        courses.forEach(course => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.setAttribute("course-id", course._id);
+
+            const card_image = document.createElement("img");
+            card_image.className = "card-image";
+            card_image.setAttribute("src", course.imageUrl);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+
+            const cardtitle = document.createElement("h3");
+            cardtitle.innerHTML = course.title;
+
+            const cardprice = document.createElement("p");
+            cardprice.innerHTML = course.price + '&nbsp;&nbsp;';
+
+            const strikeprice = document.createElement("s");
+            strikeprice.className = "strike";
+            strikeprice.innerHTML = course.strikedprice;
+
+            const viewbtn = document.createElement("button");
+            viewbtn.className = "card_view";
+            viewbtn.innerHTML = "View Content";
+
+            content.appendChild(cardtitle);
+            content.appendChild(cardprice);
+            content.appendChild(strikeprice);
+            content.appendChild(viewbtn);
+            cardprice.appendChild(strikeprice);
+
+            card.appendChild(card_image);
+            card.appendChild(content);
+
+            container.appendChild(card);
+        });
+          } catch (e) {
+              console.log("Error fetching courses", e);
+          }
+      }
+
+      window.onload = function() {
+            fetchCourses();
+      };
+  </script>
+</body>
+</html>

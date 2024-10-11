@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100x devs Jr</title>
+    <link rel="stylesheet" href="css/adminsignin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar_text">100x Devs (Jr)</div>
+        <button class="adminbtn" onclick="window.location.href='usersignup.html'">Register as user</button>
+        <button class="usersigninbtn" onclick="window.location.href='signin.html'">Signin as User</button>
+    </div>
+    <div class="slide_text"> LOG INTO</div>
+    <div class="slide_text2"> OF CODING</div>
+    <div class="slider">
+        <p class="slide">NEW WORLD</p>
+        <p class="slide"> THE FUTURE</p>
+        <p class="slide">THE ART</p>
+        <p class="slide">THE WINDOW</p>
+      </div>
+    <div class="signuppage">
+        <span class="Register">
+        SIGN-IN HERE AS ADMIN
+        </span>
+        <div class="container" id="container">
+            <div class="title">SIGN-IN</div>
+            <input type="text" placeholder="Enter Your Email" name="email" id="email"></input><br>
+            <input type="text" placeholder="Enter Your Password" name="Password" id="pass"></input><br>
+            <button class="Signinbtn" onclick="signin()"> Submit</button><br>
+            <span class="bottomtitle">Not Registered? <a href="adminsignup.html">Sign Up</a></span><br>
+        </div>
+        <div class="signup_message" id="signup_message"></div>
+        </div>
+    
+        <script>
+            async function signin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("pass").value;
+            try {
+            const response = await axios.post("http://localhost:3000/admin/signin", {
+                email: email,
+                password: password
+            });
+
+            if (response.data.token) {
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("firstname", response.data.admin.firstname);
+            localStorage.setItem("lastname", response.data.admin.lastname);
+            localStorage.setItem("email", response.data.admin.email);
+            localStorage.setItem("adminId", response.data.admin.adminId);
+            window.location.href = "adminindex.html";
+            } else if (response.data.message == "User does not exist") {
+                document.getElementById("signup_message").innerHTML = "User does not exist";
+            } else {
+            alert("Sign-in failed. Please check your credentials.");
+            }
+            } catch (error) {
+                console.error("Error during sign-in:", error);
+                alert("An error occurred. Please try again.");
+            }
+        }
+        </script>
+</body>
+</html>

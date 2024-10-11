@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100x Devs (Jr)</title>
+    <link rel="stylesheet" href="css/purchase.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <div class="topbar" id="topbar">
+        <div class="topbar_text">100x Devs <span>(Jr)</span></div>
+        <nav class="navbar">
+        <ul>
+            <li><a href="userindex.html#about">HOME</a></li>
+            <li><a href="usercourse.html#course_container">COURSES</a></li>
+            <li><a href="userindex.html#testimonials">TESTIMONIALS</a></li>
+            <li><a href="useraccount.html">ACCOUNT</a></li>
+            <li><a href="#">PURCHASES</a></li>
+            <li><a href="userindex.html#footer">CONTACT US</a></li>
+        </ul>
+        </nav>
+        <button class="logoutbtn" onclick="logout()">LOG OUT</button>
+    </div>
+
+    <div class="title">All Your Purchased <span>Courses</span></div>
+    <div class="card_container" id="card_container">
+      <div class="nodata_mssg">No Data to Display</div>
+    </div>
+  <div class="empty"></div>
+
+  <script>
+    function logout() {
+          localStorage.removeItem('token');
+          localStorage.removeItem('token');
+          localStorage.removeItem('email');
+          localStorage.removeItem('firstname');
+          localStorage.removeItem('lastname');
+          localStorage.removeItem('userId');
+          window.location.href = ("index.html");
+    }
+
+    window.onload = function() {
+          fetchCourses()
+    };
+
+    async function fetchCourses() {
+    try {
+        const response = await axios.get("http://localhost:3000/user/purchases", {
+            headers: {
+                token: localStorage.getItem("token")
+            }
+        });
+
+        const purchases = response.data.purchases; 
+        const container = document.getElementById("card_container");
+        container.innerHTML = ""; 
+
+        purchases.forEach(purchase => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.setAttribute("course-id", purchase.courseId);
+
+            const card_image = document.createElement("img");
+            card_image.className = "card-image";
+            card_image.setAttribute("src", purchase.imageUrl);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+
+            const cardtitle = document.createElement("h3");
+            cardtitle.innerHTML = purchase.title;
+
+            const cardprice = document.createElement("p");
+            cardprice.innerHTML = purchase.price + '&nbsp;&nbsp;';
+
+            const viewbtn = document.createElement("button");
+            viewbtn.className = "card_view";
+            viewbtn.innerHTML = "View Content";
+
+            content.appendChild(cardtitle);
+            content.appendChild(cardprice);
+            content.appendChild(viewbtn);
+
+            card.appendChild(card_image);
+            card.appendChild(content);
+
+            container.appendChild(card);
+        });
+          } catch (e) {
+              console.log("Error fetching courses", e);
+          }
+      }
+  </script>
+</body>
+</html>

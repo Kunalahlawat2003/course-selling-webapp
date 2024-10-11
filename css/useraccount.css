@@ -1,0 +1,290 @@
+:root{
+    --darkestblue: #070623;
+    --darkblue: #09054d;
+    --blue: #0d077e;
+    --red: rgb(245, 57, 57);
+}
+
+*{
+    box-sizing: border-box;
+}
+
+html, body{
+    margin: 0;
+    height: 100%;
+    position: relative;
+    background-image:  linear-gradient(90deg, #0d077e, #09054d , #0d077e);
+    overflow-x: hidden;
+}
+
+.topbar{
+    position: fixed;
+    width: 100%;
+    height: 10%;
+    background-color: #0c0944;
+    top: 0;
+    left: 0;
+    box-shadow: inset #1c177c 0px 0px 40px -12px;
+    z-index: 2;
+}
+
+.topbar_text{
+    font-family: Silkscreen;
+    color: white;
+    font-size:xx-large;
+    left: 20px;
+    position: relative;
+    top: 12px;
+    width: 25%;
+}
+
+.topbar_text >span{
+    color: var(--red);
+}
+
+.logoutbtn{
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    display: flex;
+    width: 6%;
+    height: 40%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-family: Ramabhadra;
+    font-weight: 600;
+    transition: 0.5s;
+    font-size: 15px;
+    left: 92%;
+    top: 30%;
+    color: white;
+    background-color: black;
+}
+
+.logoutbtn:hover{
+    color: black;
+    background-color: white;
+}
+
+.navbar ul{
+    list-style: none;
+    display: flex;
+    gap: 8%;
+    position: absolute;
+    font-family: Ramabhadra;
+    color: white;
+    top: 10%;
+    left: 26%;
+    width: 65%;
+    font-size: 14px;
+}
+
+.navbar{
+    z-index: 1000;
+}
+
+.navbar li{
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.navbar li:hover{
+    transform: translateY(-2px);
+    color: rgb(245, 57, 57);
+}
+
+.navbar a{
+   list-style: none;
+   text-decoration: none;
+   color: inherit;
+}
+
+.profile_bg{
+    position: fixed;
+    width: 100%;
+    height: 40%;
+    background-color: black;
+    background-image: url(/img/snow1.png), url(/img/snow2.png), url(/img/snow3.png);
+    animation: snow 20s linear infinite;
+}
+
+@keyframes snow {
+    0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+    100% {background-position: 500px 1000px, 400px 400px, 300px 300px}
+}
+
+.profile_icon >span{
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    font-size: 10em;
+    border-radius: 50%;
+    top: 30%;
+    left: 44.5%;
+    display: inline-block;
+}
+
+.firstname{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    position: relative;
+    top: 135%;
+    left: 43.5%;
+    font-family: ramabhadra;
+}
+
+.lastname{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    position: relative;
+    top: 135%;
+    left: 44%;
+    font-family: ramabhadra;
+}
+
+.email{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    position: relative;
+    top: 130%;
+    font-family: ramabhadra;
+}
+
+.viewpurchases{
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 15%;
+    height: 13%;
+    border-radius: 5px;
+    margin-bottom: auto 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+    transition: 0.3s;
+    font-size: 20px;
+    top: 140%;
+    left: 34%;
+    box-shadow: 1px 1px 13px 0px rgba(73, 73, 73, 0.75);
+}
+
+.viewpurchases:hover{
+    color: white;
+    background-color: var(--red);
+}
+
+.delete{
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 15%;
+    height: 13%;
+    border-radius: 5px;
+    margin-bottom: auto 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+    transition: 0.3s;
+    font-size: 20px;
+    top: 140%;
+    left: 35%;
+    background-color: var(--red);
+    color: white;
+    box-shadow: 1px 1px 13px 0px rgba(67, 67, 67, 0.75);
+}
+
+.delete:hover{
+    color: black;
+    background-color: white;
+}
+
+.role{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(250, 250, 14);
+    color: black;
+    position: relative;
+    top: 136%;
+    font-family: Ramabhadra;
+    font-weight: bold;
+    width: 5%;
+    left: 47%;
+    border-radius: 5px;
+    border: 3px solid white;
+    box-shadow: 1px 1px 13px 0px rgba(80, 79, 79, 0.75);
+}
+
+.delete_container{
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: 70%;
+    height: 35%;
+    background-color: var(--red);
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    border-radius: 10px;
+    border: 5px solid black;
+    display: none;
+}
+
+.delete_title{
+    text-align: center;
+    margin-top: 30px;
+    font-size: 35px;
+    font-family: ramabhadra;
+    color: white;
+}
+
+.delete_buttons{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.delete_no{
+    width: 15%;
+    height: 13%;
+    border-radius: 5px;
+    margin-bottom: auto 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+    transition: 0.3s;
+    font-size: 20px;
+    background-color: white;
+    color: black;
+}
+
+.delete_no:hover{
+    color: white;
+    background-color: black;
+}
+
+.delete_yes{
+    width: 15%;
+    height: 13%;
+    border-radius: 5px;
+    margin-bottom: auto 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+    transition: 0.3s;
+    font-size: 20px;
+    background-color: white;
+    color: black;
+}
+
+.delete_yes:hover{
+    color: white;
+    background-color: black;
+}

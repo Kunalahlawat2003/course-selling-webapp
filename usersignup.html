@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100x devs Jr</title>
+    <link rel="stylesheet" href="css/usersignup.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar_text">100x Devs (Jr)</div>
+        <button class="adminbtn" onclick="window.location.href='adminsignup.html'">Register as Admin</button>
+    </div>
+    <div class="slide_text"> LOG INTO</div>
+    <div class="slide_text2"> OF CODING</div>
+    <div class="slider">
+        <p class="slide">NEW WORLD</p>
+        <p class="slide"> THE FUTURE</p>
+        <p class="slide">THE ART</p>
+        <p class="slide">THE WINDOW</p>
+      </div>
+    <div class="signuppage">
+        <span class="Register">
+        REGISTER HERE
+        </span>
+        <div class="container" id="container">
+            <div class="title">SIGN-UP</div>
+            <input type="text" placeholder="Enter Your Email" name="email" id="email"></input><br>
+            <input type="text" placeholder="Enter Your Password" name="Password" id="pass"></input><br>
+            <input type="text" placeholder="Enter Your First Name" name="firstname" id="firstname"></input><br>
+            <input type="text" placeholder="Enter Your Last Name" name="lastname" id="lastname"></input><br>
+            <button class="Signupbtn" onclick="signup()"> Submit</button><br>
+            <span class="bottomtitle">Already Signedup? <a href="signin.html">Login</a></span><br>
+        </div>
+        <div class="signup_message" id="signup_message"></div>
+        </div>
+    
+        <script>
+            async function signup(){
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("pass").value;
+                const firstname = document.getElementById("firstname").value;
+                const lastname = document.getElementById("lastname").value;
+            try {    
+                const response = await axios.post("http://localhost:3000/user/signup",{
+                    email: email,
+                    password: password,
+                    firstname: firstname,
+                    lastname: lastname
+                });  
+    
+                if (response.data.message === "You are signed up") {
+                    document.getElementById("signup_message").innerHTML = "You are Signed Up. Please Login";
+                } else if (response.data.message === "user already exists") {
+                    document.getElementById("signup_message").innerHTML = "User already exists";
+                } else {
+                    document.getElementById("signup_message").innerHTML = "Incorrect format";
+                }
+                } catch (error) {
+                    console.error('Error occurred:', error);
+                    document.getElementById("signup_message").innerHTML = "An error occurred during signup.";
+                }
+            }
+        </script>
+</body>
+</html>

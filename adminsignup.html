@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100x devs Jr</title>
+    <link rel="stylesheet" href="css/adminsignup.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar_text">100x Devs (Jr)</div>
+        <button class="userbtn" onclick="window.location.href='usersignup.html'">Register as User</button>
+    </div>
+
+    <div class="invitecode">
+        <div class="invitecode_toptext">Enter Your Admin Invite Code</div>
+        <input type="text" placeholder="Enter your Invite Code" class="invitecode_input"></input><br>
+        <input type="text" placeholder="Enter Admin's First Name" class="invitecode_first"></input><br>
+        <input type="text" placeholder="Enter Admin's Lirst Name" class="invitecode_last"></input><br>
+        <button class="invitebtn" onclick="invite()"> Submit</button><br>
+    </div>
+    <div class="invite_message" id="invite_message"></div>
+
+
+<div class="adminsignup">
+    <div class="slide_text"> LOG INTO</div>
+    <div class="slide_text2"> OF CODING</div>
+    <div class="slider">
+        <p class="slide">NEW WORLD</p>
+        <p class="slide"> THE FUTURE</p>
+        <p class="slide">THE ART</p>
+        <p class="slide">THE WINDOW</p>
+      </div>
+    <div class="admin_signuppage">
+        <span class="Register">
+        REGISTER HERE AS ADMIN
+        </span>
+        <div class="container" id="container">
+            <div class="title">SIGN-UP</div>
+            <input type="text" placeholder="Enter Your Email" name="email" id="email"></input><br>
+            <input type="text" placeholder="Enter Your Password" name="Password" id="pass"></input><br>
+            <input type="text" placeholder="Enter Your First Name" name="firstname" id="firstname"></input><br>
+            <input type="text" placeholder="Enter Your Last Name" name="lastname" id="lastname"></input><br>
+            <input type="text" placeholder="Enter Your Invite Code" name="invitecode" id="invitecode"></input><br>
+            <button class="admin_signupbtn" onclick="adminsignup()"> Submit</button><br>
+            <span class="bottomtitle">Already Signedup? <a href="adminsignin.html">Login</a></span>
+        </div>
+        <div class="adminsignup_message" id="adminsignup_message"></div>
+        </div>
+</div>    
+
+        <script>
+            async function invite() {
+                const invitecode = document.querySelector('.invitecode_input').value;
+
+                try{
+                    const invite = await axios.post("http://localhost:3000/admin/signup", {
+                        invitecode: invitecode
+                    })
+
+                    if(invite.data.message == "Invalid invite phrase or it has expired"){
+                        document.getElementById("invite_message").value = "Invalid invite phrase";
+                    } else if(invite.data.message == "Invite code has expired"){
+                        document.getElementById("invite_message").value = "Invite Code is Expired";
+                    }
+                    else {
+                        document.querySelector('.invitecode').style.display = 'none';
+                        document.querySelector('.adminsignup').style.display = 'block';
+                    }
+                } catch (error){
+                    console.log("error in validating invite code");
+                }
+            }
+
+            async function adminsignup(){
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("pass").value;
+                const firstname = document.getElementById("firstname").value;
+                const lastname = document.getElementById("lastname").value;
+                const invitecode = document.getElementById("invitecode").value;
+            try {    
+                const response = await axios.post("http://localhost:3000/admin/signup",{
+                    email: email,
+                    password: password,
+                    firstname: firstname,
+                    lastname: lastname,
+                    invitecode: invitecode
+                });  
+    
+                if(response.data.message == "You are signed up") {
+                    document.getElementById("adminsignup_message").innerHTML = "You are Signed Up. Please Login";
+                } else if(response.data.message == "user already exists") {
+                    document.getElementById("adminsignup_message").innerHTML = "User already exists";
+                } else if(response.data.message == "Invite code has expired"){
+                    document.getElementById("adminsignup_message").innerHTML = "Invite code has expired";
+                } else if(response.data.message == "Invalid invite phrase or it has expired"){
+                    document.getElementById("adminsignup_message").innerHTML = "Invalid Invite Code";
+                } else {
+                    document.getElementById("adminsignup_message").innerHTML = "Incorrect format";
+                }
+                } catch (error) {
+                    console.error('Error occurred:', error);
+                    document.getElementById("adminsignup_message").innerHTML = "An error occurred during signup.";
+                }
+            }
+        </script>
+</body>
+</html>
