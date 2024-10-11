@@ -146,11 +146,11 @@ userRouter.post("/purchase", userMiddleware, async function(req, res) {
 
 })
 
-userRouter.get("/purchases", userMiddleware, async function(req, res) {
-    const { userId } = req.body; 
+userRouter.get("/purchases/:id", userMiddleware, async function(req, res) {
+    const { id: userId } = req.params;
     try {
-        const purchases = await purchaseModel.find(userId); 
-        if (purchases.length > 0) {
+        const purchases = await purchaseModel.find({ userId: userId }); 
+        if (purchases) {
             res.json({ 
                 purchases
             });
