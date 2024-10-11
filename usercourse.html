@@ -85,7 +85,7 @@
 
       async function fetchCourses() {
     try {
-        const response = await axios.get("http://localhost:3000/user/courses", {
+        const response = await axios.get("https://course-selling-webapp-lyart.vercel.app/user/courses", {
             headers: {
                 token: localStorage.getItem("token")
             }
@@ -149,7 +149,7 @@
           }
       
           try {
-              const response = await axios.post("http://localhost:3000/user/purchase", {
+              const response = await axios.post("https://course-selling-webapp-lyart.vercel.app/user/purchase", {
                   userId: userId,
                   courseId: courseId,
                   title: title,
