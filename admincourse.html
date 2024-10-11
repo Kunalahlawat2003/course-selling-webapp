@@ -106,7 +106,7 @@
         const type = document.getElementById("course_type").value;
 
         try{
-        const response = await axios.post("https://course-selling-webapp-two.vercel.app/admin/course", {
+        const response = await axios.post("https://course-selling-webapp.onrender.com/admin/course", {
           title: title,
           description: description,
           imageUrl: imageUrl,
@@ -182,7 +182,7 @@
 
     async function fetchCourses() {
     try {
-        const response = await axios.get("https://course-selling-webapp-two.vercel.app/admin/courses", {
+        const response = await axios.get("https://course-selling-webapp.onrender.com/admin/courses", {
             headers: {
                 token: localStorage.getItem("token")
             }
@@ -275,7 +275,7 @@
       async function deleteCourse(courseId) {
           try {
               // Send a delete request to the server
-              const response = await axios.delete(`https://course-selling-webapp-two.vercel.app/admin/course/${courseId}`, {
+              const response = await axios.delete(`https://course-selling-webapp.onrender.com/admin/course/${courseId}`, {
                   headers: {
                       token: localStorage.getItem("token")
                   }
