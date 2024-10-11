@@ -147,8 +147,9 @@ userRouter.post("/purchase", userMiddleware, async function(req, res) {
 })
 
 userRouter.get("/purchases", userMiddleware, async function(req, res) {
+    const { userId } = req.body; 
     try {
-        const purchases = await purchaseModel.find({}); 
+        const purchases = await purchaseModel.find(userId); 
         if (purchases.length > 0) {
             res.json({ 
                 purchases
