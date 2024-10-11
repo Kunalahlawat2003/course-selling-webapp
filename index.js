@@ -10,7 +10,10 @@ const { courseRouter } = require("./routes/course");
 const { adminRouter } = require("./routes/admin");
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://course-selling-webapp-two.vercel.app', // Adjust as needed
+  credentials: true}
+));
 app.use(express.static(path.join(__dirname)));
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
